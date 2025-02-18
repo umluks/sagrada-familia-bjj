@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const endereco = document.getElementById("endereco").value;
       const cidade = document.getElementById("cidade").value;
       const faixa = document.getElementById("faixa").value;
+      const grau = document.getElementById("grau").value;
       const ultgraduacao = document.getElementById("ultgraduacao").value;
       const nomeemergencia = document.getElementById("nomeemergencia").value;
       const contatoemergencia =
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         endereco,
         cidade,
         faixa,
+        grau,
         ultgraduacao,
         nomeemergencia,
         contatoemergencia,
@@ -42,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
             endereco,
             cidade,
             faixa,
+            grau,
             ultgraduacao,
             nomeemergencia,
             contatoemergencia,
@@ -51,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!response.ok) throw new Error("Erro ao cadastrar usuário");
 
         alert("Usuário cadastrado com sucesso!");
-        //form.reset();
+        form.reset();
         carregarUsuarios();
       } catch (error) {
         alert(error.message);
@@ -82,6 +85,7 @@ async function carregarUsuarios() {
       <th>Endereço</th>
       <th>Cidade</th>
       <th>Faixa</th>
+      <th>Grau</th>
       <th>Última Graduação</th>
       <th>Nome Emergência</th>
       <th>Contato Emergência</th>
@@ -98,9 +102,10 @@ async function carregarUsuarios() {
         <td>${getValue(user.endereco)}</td>
         <td>${getValue(user.cidade)}</td>
         <td>${getValue(user.faixa)}</td>
-        <td>${getValue(user.ult_graduacao)}</td>
-        <td>${getValue(user.nome_emergencia)}</td>
-        <td>${getValue(user.contato_emergencia)}</td>
+        <td>${getValue(user.grau)}</td>
+        <td>${getValue(user.ultgraduacao)}</td>
+        <td>${getValue(user.nomeemergencia)}</td>
+        <td>${getValue(user.contatoemergencia)}</td>
       `;
       tabela.appendChild(linha);
     });
