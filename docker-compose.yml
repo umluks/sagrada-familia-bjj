@@ -28,10 +28,19 @@ services:
       DB_NAME: cadastro_db
     entrypoint: ["./wait-for-it.sh", "mysql:3306", "--", "npm", "start"] # Aguarda o MySQL
 
+  frontend:
+    build: ./frontend
+    container_name: frontend_container
+    restart: always
+    ports:
+      - "2000:80"
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     restart: always
+    depends_on:
+      - mysql
     environment:
       PMA_HOST: mysql
       PMA_USER: root
