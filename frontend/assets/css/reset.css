@@ -1,0 +1,52 @@
+/* Reset para margens, preenchimentos e bordas */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Remove o estilo padrão das listas */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Remover estilo de links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Limpar os campos de formulário */
+input,
+button,
+textarea,
+select {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Define a altura mínima para a tela */
+html,
+body {
+  height: 100%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+/* Garante que o body tenha um bom comportamento */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Define o comportamento das imagens */
+img {
+  max-width: 100%;
+  height: auto;
+}
