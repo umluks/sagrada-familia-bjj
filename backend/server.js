@@ -11,25 +11,27 @@ app.use(bodyParser.json());
 app.post("/usuarios", (req, res) => {
   const {
     nome,
-    dtnascimento, // Corrigido para minúsculas
+    dt_nascimento,
     contato,
     email,
     endereco,
     cidade,
     faixa,
-    ultgraduacao, // Corrigido para minúsculas
-    nomeemergencia, // Corrigido para minúsculas
+    grau,
+    ultgraduacao,
+    nomeemergencia,
     contatoemergencia, // Corrigido para minúsculas
   } = req.body;
 
   if (
     !nome ||
-    !dtnascimento ||
+    !dt_nascimento ||
     !contato ||
     !email ||
     !endereco ||
     !cidade ||
     !faixa ||
+    !grau ||
     !ultgraduacao ||
     !nomeemergencia ||
     !contatoemergencia
@@ -37,20 +39,21 @@ app.post("/usuarios", (req, res) => {
     return res.status(400).json({ error: "Todos os campos são obrigatórios" });
   }
 
-  const sql = `INSERT INTO usuarios 
-    (nome, dt_nascimento, contato, email, endereco, cidade, faixa, ult_graduacao, nome_emergencia, contato_emergencia) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const sql = `INSERT INTO alunos 
+    (nome, dt_nascimento, contato, email, endereco, cidade, faixa, grau, ultgraduacao, nomeemergencia, contatoemergencia) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
   db.query(
     sql,
     [
       nome,
-      dtnascimento, // Agora está igual ao que o frontend envia
+      dt_nascimento, // Agora está igual ao que o frontend envia
       contato,
       email,
       endereco,
       cidade,
       faixa,
+      grau,
       ultgraduacao, // Agora está igual ao que o frontend envia
       nomeemergencia, // Agora está igual ao que o frontend envia
       contatoemergencia, // Agora está igual ao que o frontend envia
@@ -66,8 +69,8 @@ app.post("/usuarios", (req, res) => {
 });
 
 // Rota para listar usuários cadastrados
-app.get("/usuarios", (req, res) => {
-  const sql = "SELECT * FROM usuarios";
+app.get("/alunos", (req, res) => {
+  const sql = "SELECT * FROM alunos";
   db.query(sql, (err, results) => {
     if (err) {
       console.error("Erro ao buscar usuários:", err);

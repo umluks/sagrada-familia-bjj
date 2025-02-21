@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: cadastro_db
+      MYSQL_DATABASE: DB_SFBJJ
     ports:
       - "3306:3306"
     volumes:
@@ -23,7 +23,7 @@ services:
       DB_HOST: mysql
       DB_USER: root
       DB_PASSWORD: root
-      DB_NAME: cadastro_db
+      DB_NAME: DB_SFBJJ
     entrypoint: ["./wait-for-it.sh", "mysql:3306", "--", "npm", "start"] # Aguarda o MySQL
 
   frontend:

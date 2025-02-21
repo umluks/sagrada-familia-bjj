@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
 
       const nome = document.getElementById("nome").value;
-      const dtnascimento = document.getElementById("dtnascimento").value;
+      const dt_nascimento = document.getElementById("dt_nascimento").value;
       const contato = document.getElementById("contato").value;
       const email = document.getElementById("email").value;
       const endereco = document.getElementById("endereco").value;
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       console.log("Dados do formulário:", {
         nome,
-        dtnascimento,
+        dt_nascimento,
         contato,
         email,
         endereco,
@@ -33,12 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       try {
-        const response = await fetch("http://localhost:3000/usuarios", {
+        const response = await fetch("http://localhost:3000/alunos", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             nome,
-            dtnascimento,
+            dt_nascimento,
             contato,
             email,
             endereco,
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         alert("Usuário cadastrado com sucesso!");
         form.reset();
-        carregarUsuarios();
+        carregaralunos();
       } catch (error) {
         alert(error.message);
       }
@@ -63,17 +63,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-async function carregarUsuarios() {
-  const tabela = document.getElementById("tabela-usuarios");
+async function carregaralunos() {
+  const tabela = document.getElementById("tabela-alunos");
   if (!tabela) return;
 
   try {
-    const response = await fetch("http://localhost:3000/usuarios");
+    const response = await fetch("http://localhost:3000/alunos");
     const data = await response.json();
-    const usuarios = data.data || [];
+    const alunos = data.data || [];
 
-    if (!Array.isArray(usuarios)) {
-      console.error("Erro: resposta da API não é um array!", usuarios);
+    if (!Array.isArray(alunos)) {
+      console.error("Erro: resposta da API não é um array!", alunos);
       return;
     }
 
@@ -91,7 +91,7 @@ async function carregarUsuarios() {
       <th>Contato Emergência</th>
     </tr>`;
 
-    usuarios.forEach((user) => {
+    alunos.forEach((user) => {
       const getValue = (value) => (value ? value : "Não informado");
       const linha = document.createElement("tr");
       linha.innerHTML = `
@@ -114,4 +114,4 @@ async function carregarUsuarios() {
   }
 }
 
-carregarUsuarios();
+carregaralunos();
