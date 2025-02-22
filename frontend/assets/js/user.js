@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const contatoemergencia =
         document.getElementById("contatoemergencia").value;
 
-      console.log("Dados do formulário:", {
+      console.log("Enviando dados do formulário...", {
         nome,
         dt_nascimento,
         contato,
@@ -55,63 +55,79 @@ document.addEventListener("DOMContentLoaded", () => {
 
         alert("Usuário cadastrado com sucesso!");
         form.reset();
-        carregaralunos();
+        carregarAlunos();
       } catch (error) {
-        alert(error.message);
+        console.error("Erro:", error.message);
       }
     });
   }
 });
 
-async function carregaralunos() {
+async function carregarAlunos() {
   const tabela = document.getElementById("tabela-alunos");
-  if (!tabela) return;
+  if (!tabela) {
+    console.error("Erro: Elemento 'tabela-alunos' não encontrado!");
+    return;
+  }
 
   try {
     const response = await fetch("http://localhost:3000/alunos");
-    const data = await response.json();
-    const alunos = data.data || [];
 
-    if (!Array.isArray(alunos)) {
-      console.error("Erro: resposta da API não é um array!", alunos);
+    if (!response.ok)
+      throw new Error(`Erro na resposta da API: ${response.status}`);
+
+    const resultado = await response.json(); // ✅ Obtendo a resposta
+    console.log("Resposta da API:", resultado); // Debug para verificar os dados
+
+    if (!resultado || !resultado.data || !Array.isArray(resultado.data)) {
+      console.error(
+        "Erro: resposta da API não contém um array válido!",
+        resultado
+      );
       return;
     }
 
-    tabela.innerHTML = `<tr>
-      <th>Nome</th>
-      <th>Data de Nascimento</th>
-      <th>Contato</th>
-      <th>Email</th>
-      <th>Endereço</th>
-      <th>Cidade</th>
-      <th>Faixa</th>
-      <th>Grau</th>
-      <th>Última Graduação</th>
-      <th>Nome Emergência</th>
-      <th>Contato Emergência</th>
-    </tr>`;
+    const alunos = resultado.data;
+
+    // ✅ Resetando a tabela para garantir que novos dados sejam renderizados
+    tabela.innerHTML = `
+      <tr>
+        <th>Nome</th>
+        <th>Data de Nascimento</th>
+        <th>Contato</th>
+        <th>Email</th>
+        <th>Endereço</th>
+        <th>Cidade</th>
+        <th>Faixa</th>
+        <th>Grau</th>
+        <th>Última Graduação</th>
+        <th>Nome Emergência</th>
+        <th>Contato Emergência</th>
+      </tr>
+    `;
 
     alunos.forEach((user) => {
-      const getValue = (value) => (value ? value : "Não informado");
       const linha = document.createElement("tr");
       linha.innerHTML = `
-        <td>${getValue(user.nome)}</td>
-        <td>${getValue(user.dt_nascimento)}</td>
-        <td>${getValue(user.contato)}</td>
-        <td>${getValue(user.email)}</td>
-        <td>${getValue(user.endereco)}</td>
-        <td>${getValue(user.cidade)}</td>
-        <td>${getValue(user.faixa)}</td>
-        <td>${getValue(user.grau)}</td>
-        <td>${getValue(user.ultgraduacao)}</td>
-        <td>${getValue(user.nomeemergencia)}</td>
-        <td>${getValue(user.contatoemergencia)}</td>
+        <td>${user.nome || "Não informado"}</td>
+        <td>${user.dt_nascimento || "Não informado"}</td>
+        <td>${user.contato || "Não informado"}</td>
+        <td>${user.email || "Não informado"}</td>
+        <td>${user.endereco || "Não informado"}</td>
+        <td>${user.cidade || "Não informado"}</td>
+        <td>${user.faixa || "Não informado"}</td>
+        <td>${user.grau || "Não informado"}</td>
+        <td>${user.ultgraduacao || "Não informado"}</td>
+        <td>${user.nomeemergencia || "Não informado"}</td>
+        <td>${user.contatoemergencia || "Não informado"}</td>
       `;
       tabela.appendChild(linha);
     });
+
+    console.log("Tabela atualizada com sucesso!");
   } catch (error) {
     console.error("Erro ao carregar usuários:", error);
   }
 }
 
-carregaralunos();
+carregarAlunos();

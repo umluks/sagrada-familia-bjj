@@ -35,7 +35,7 @@ connection.connect((err) => {
     if (err) {
       console.error("Erro ao criar tabela:", err.message);
     } else {
-      console.log("✅ Tabela `usuarios` pronta para uso!");
+      console.log("✅ Tabela `alunos` pronta para uso!");
     }
   });
 });

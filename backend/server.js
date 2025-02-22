@@ -8,7 +8,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Rota para salvar um novo usuário
-app.post("/usuarios", (req, res) => {
+app.post("/alunos", (req, res) => {
   const {
     nome,
     dt_nascimento,
