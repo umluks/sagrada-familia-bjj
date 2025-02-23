@@ -103,6 +103,7 @@ async function carregarAlunos() {
         <th>Última Graduação</th>
         <th>Nome Emergência</th>
         <th>Contato Emergência</th>
+        <th>Ações</th>
       </tr>
     `;
 
@@ -120,8 +121,20 @@ async function carregarAlunos() {
         <td>${user.ultgraduacao || "Não informado"}</td>
         <td>${user.nomeemergencia || "Não informado"}</td>
         <td>${user.contatoemergencia || "Não informado"}</td>
+        <td>
+          <button onclick="editarAluno(${user.id})" title="Editar">✏️</button>
+          <button onclick="excluirAluno(${user.id})" title="Excluir">🗑️</button>
+        </td>
       `;
       tabela.appendChild(linha);
+    });
+
+    // Adiciona evento para todos os botões de exclusão
+    document.querySelectorAll(".btn-excluir").forEach((botao) => {
+      botao.addEventListener("click", (event) => {
+        const id = event.target.getAttribute("data-id");
+        excluirAluno(id);
+      });
     });
 
     console.log("Tabela atualizada com sucesso!");

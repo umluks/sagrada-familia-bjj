@@ -94,6 +94,7 @@ body {
     font-size: 0.7rem;
     text-align: center;
     width: 90%;
+    table-layout: ;
     margin: 0 auto;
     border-collapse: separate;
     border-spacing: 2px;
