@@ -122,8 +122,12 @@ async function carregarAlunos() {
         <td>${user.nomeemergencia || "Não informado"}</td>
         <td>${user.contatoemergencia || "Não informado"}</td>
         <td>
-          <button onclick="editarAluno(${user.id})" title="Editar">✏️</button>
-          <button onclick="excluirAluno(${user.id})" title="Excluir">🗑️</button>
+          <button class="btn-editar" data-id="${
+            user.id
+          }" title="Editar">✏️</button>
+          <button class="btn-excluir" data-id="${
+            user.id
+          }" title="Excluir">🗑️</button>
         </td>
       `;
       tabela.appendChild(linha);
@@ -134,6 +138,14 @@ async function carregarAlunos() {
       botao.addEventListener("click", (event) => {
         const id = event.target.getAttribute("data-id");
         excluirAluno(id);
+      });
+    });
+
+    // Adiciona evento para todos os botões de edição
+    document.querySelectorAll(".btn-editar").forEach((botao) => {
+      botao.addEventListener("click", (event) => {
+        const id = event.target.getAttribute("data-id");
+        editarAluno(id);
       });
     });
 

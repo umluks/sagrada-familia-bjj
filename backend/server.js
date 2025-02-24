@@ -6,6 +6,7 @@ const db = require("./db/database");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
 
 // Rota para salvar um novo usuário
 app.post("/alunos", (req, res) => {
@@ -95,6 +96,75 @@ app.delete("/alunos/:id", (req, res) => {
     }
     res.json({ message: "Aluno excluído com sucesso!" });
   });
+});
+
+// Rota para atualizar um aluno pelo ID
+app.put("/alunos/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    nome,
+    dt_nascimento,
+    contato,
+    email,
+    endereco,
+    cidade,
+    faixa,
+    grau,
+    ultgraduacao,
+    nomeemergencia,
+    contatoemergencia,
+  } = req.body;
+
+  // Verifica se todos os campos foram enviados
+  if (
+    !nome ||
+    !dt_nascimento ||
+    !contato ||
+    !email ||
+    !endereco ||
+    !cidade ||
+    !faixa ||
+    !grau ||
+    !ultgraduacao ||
+    !nomeemergencia ||
+    !contatoemergencia
+  ) {
+    return res.status(400).json({ error: "Todos os campos são obrigatórios" });
+  }
+
+  const sql = `UPDATE alunos SET 
+    nome = ?, dt_nascimento = ?, contato = ?, email = ?, endereco = ?, 
+    cidade = ?, faixa = ?, grau = ?, ultgraduacao = ?, 
+    nomeemergencia = ?, contatoemergencia = ? 
+    WHERE id = ?`;
+
+  db.query(
+    sql,
+    [
+      nome,
+      dt_nascimento,
+      contato,
+      email,
+      endereco,
+      cidade,
+      faixa,
+      grau,
+      ultgraduacao,
+      nomeemergencia,
+      contatoemergencia,
+      id,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error("Erro ao atualizar aluno:", err);
+        return res.status(500).json({ error: "Erro ao atualizar aluno" });
+      }
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Aluno não encontrado" });
+      }
+      res.json({ message: "Aluno atualizado com sucesso!" });
+    }
+  );
 });
 
 app.listen(3000, () => {
